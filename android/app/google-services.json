@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "1000163153346",
-    "project_id": "ammart-8885e",
-    "storage_bucket": "ammart-8885e.appspot.com"
+    "project_number": "784829817070",
+    "project_id": "at-the-door-a8d2b",
+    "storage_bucket": "at-the-door-a8d2b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1000163153346:android:7d49ab307cc6e18406b25b",
+        "mobilesdk_app_id": "1:784829817070:android:3c724f03ffbe366c3793ff",
         "android_client_info": {
-          "package_name": "com.sixamtech.sixam_mart"
+          "package_name": "com.at_the_door"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1000163153346-48ckm2uf7h70hmgn74kg1gq02sval158.apps.googleusercontent.com",
+          "client_id": "784829817070-o5q6tsicp595vbvg14b3k2tb8jc8ga64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.at_the_door",
+            "certificate_hash": "7bc0e400cc708083d52e831e23cb4dfa053a2f16"
+          }
+        },
+        {
+          "client_id": "784829817070-0kibf9mi83vkq6pfkn70kmurtsnt7ovr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCic6Mw3RRPFcimXhwGidwhCN0tXY7HFFc"
+          "current_key": "AIzaSyBkrTHnGUb038apbt1T4ulwu1TkXuELFfk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1000163153346-48ckm2uf7h70hmgn74kg1gq02sval158.apps.googleusercontent.com",
+              "client_id": "784829817070-0kibf9mi83vkq6pfkn70kmurtsnt7ovr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
