@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "784829817070",
-    "project_id": "at-the-door-a8d2b",
-    "storage_bucket": "at-the-door-a8d2b.appspot.com"
+    "project_number": "353925026636",
+    "project_id": "at-your-door-5bf7c",
+    "storage_bucket": "at-your-door-5bf7c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:784829817070:android:3c724f03ffbe366c3793ff",
+        "mobilesdk_app_id": "1:353925026636:android:d7cbe7ec203030fc53b5e9",
         "android_client_info": {
-          "package_name": "com.at_the_door"
+          "package_name": "com.at_your_door"
         }
       },
       "oauth_client": [
         {
-          "client_id": "784829817070-o5q6tsicp595vbvg14b3k2tb8jc8ga64.apps.googleusercontent.com",
+          "client_id": "353925026636-mcguvkt0tap8j5f27606vsfg9a7hbsh4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.at_the_door",
+            "package_name": "com.at_your_door",
             "certificate_hash": "7bc0e400cc708083d52e831e23cb4dfa053a2f16"
           }
         },
         {
-          "client_id": "784829817070-0kibf9mi83vkq6pfkn70kmurtsnt7ovr.apps.googleusercontent.com",
+          "client_id": "353925026636-c1v77jnf6nr9lfatl8fncgm6r70gu75b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkrTHnGUb038apbt1T4ulwu1TkXuELFfk"
+          "current_key": "AIzaSyBsENW_emUktLpFq7aSKbvj9RFQZ5StsPQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "784829817070-0kibf9mi83vkq6pfkn70kmurtsnt7ovr.apps.googleusercontent.com",
+              "client_id": "353925026636-c1v77jnf6nr9lfatl8fncgm6r70gu75b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
