@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "353925026636",
-    "project_id": "at-your-door-5bf7c",
-    "storage_bucket": "at-your-door-5bf7c.appspot.com"
+    "project_number": "744290881254",
+    "project_id": "at-your-door-1d99f",
+    "storage_bucket": "at-your-door-1d99f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:353925026636:android:d7cbe7ec203030fc53b5e9",
+        "mobilesdk_app_id": "1:744290881254:android:b3e2b56aa9a1dc48bd7527",
         "android_client_info": {
-          "package_name": "com.at_your_door"
+          "package_name": "com.lordandkingsagropvtltd.atyourdoor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "353925026636-mcguvkt0tap8j5f27606vsfg9a7hbsh4.apps.googleusercontent.com",
+          "client_id": "744290881254-l7h0n04pkgksik22vd8cebvpbqf079ha.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.at_your_door",
+            "package_name": "com.lordandkingsagropvtltd.atyourdoor",
             "certificate_hash": "7bc0e400cc708083d52e831e23cb4dfa053a2f16"
           }
         },
         {
-          "client_id": "353925026636-c1v77jnf6nr9lfatl8fncgm6r70gu75b.apps.googleusercontent.com",
+          "client_id": "744290881254-pts71cvk7jrvl953gq64gor5a05ft4gl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBsENW_emUktLpFq7aSKbvj9RFQZ5StsPQ"
+          "current_key": "AIzaSyDmtuxauVGmvPf5HLkR7Y69oI_A46GW91c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "353925026636-c1v77jnf6nr9lfatl8fncgm6r70gu75b.apps.googleusercontent.com",
+              "client_id": "744290881254-pts71cvk7jrvl953gq64gor5a05ft4gl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

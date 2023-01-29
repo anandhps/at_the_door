@@ -44,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     _isLogin = Get.find<AuthController>().isLoggedIn();
 
-    if(_isLogin){
+    if (_isLogin) {
       Get.find<OrderController>().getRunningOrders(1, fromDashBoard: true);
     }
 
@@ -77,15 +77,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _setPage(0);
           return false;
         } else {
-          if(!ResponsiveHelper.isDesktop(context) && Get.find<SplashController>().module != null && Get.find<SplashController>().configModel.module == null) {
+          if (!ResponsiveHelper.isDesktop(context) &&
+              Get.find<SplashController>().module != null &&
+              Get.find<SplashController>().configModel.module == null) {
             Get.find<SplashController>().setModule(null);
             return false;
-          }else {
-            if(_canExit) {
+          } else {
+            if (_canExit) {
               return true;
-            }else {
+            } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('back_press_again_to_exit'.tr, style: TextStyle(color: Colors.white)),
+                content: Text('back_press_again_to_exit'.tr,
+                    style: TextStyle(color: Colors.white)),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.green,
                 duration: Duration(seconds: 2),
@@ -100,86 +103,115 @@ class _DashboardScreenState extends State<DashboardScreen> {
           }
         }
       },
-      child: GetBuilder<OrderController>(
-        builder: (orderController) {
-          List<OrderModel> _runningOrder = orderController.runningOrderModel != null ? orderController.runningOrderModel.orders : [];
+      child: GetBuilder<OrderController>(builder: (orderController) {
+        List<OrderModel> _runningOrder =
+            orderController.runningOrderModel != null
+                ? orderController.runningOrderModel.orders
+                : [];
 
-          List<OrderModel> _reversOrder =  List.from(_runningOrder.reversed);
+        List<OrderModel> _reversOrder = List.from(_runningOrder.reversed);
 
-          return Scaffold(
-            key: _scaffoldKey,
-
-            floatingActionButton: ResponsiveHelper.isDesktop(context) ? null :
-            (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel.orders.isNotEmpty) ? SizedBox() : FloatingActionButton(
-                  elevation: 5,
-                  backgroundColor: _pageIndex == 2 ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
-                  onPressed: () => _setPage(2),
-                  child: CartWidget(color: _pageIndex == 2 ? Theme.of(context).cardColor : Theme.of(context).disabledColor, size: 30),
-                ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-            bottomNavigationBar: ResponsiveHelper.isDesktop(context) ? SizedBox()
-                : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel.orders.isNotEmpty) ? SizedBox() :  BottomAppBar(
-                  elevation: 5,
-                  notchMargin: 5,
-                  clipBehavior: Clip.antiAlias,
-                  shape: CircularNotchedRectangle(),
-
-                  child: Padding(
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    child: Row(children: [
-                      BottomNavItem(iconData: Icons.home, isSelected: _pageIndex == 0, onTap: () => _setPage(0)),
-                      BottomNavItem(iconData: Icons.favorite, isSelected: _pageIndex == 1, onTap: () => _setPage(1)),
-                      Expanded(child: SizedBox()),
-                      BottomNavItem(iconData: Icons.shopping_bag, isSelected: _pageIndex == 3, onTap: () => _setPage(3)),
-                      BottomNavItem(iconData: Icons.menu, isSelected: _pageIndex == 4, onTap: () {
-                        Get.bottomSheet(MenuScreen(), backgroundColor: Colors.transparent, isScrollControlled: true);
-                      }),
-                    ]),
-                  ),
-                ),
-            body: ExpandableBottomSheet(
-              background: PageView.builder(
-                  controller: _pageController,
-                  itemCount: _screens.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return _screens[index];
-                  },
-                ),
-
-              persistentContentHeight: 100 ,
-
-              onIsContractedCallback: () {
-                if(!orderController.showOneOrder) {
-                  orderController.showOrders();
-                }
+        return Scaffold(
+          key: _scaffoldKey,
+          floatingActionButton: ResponsiveHelper.isDesktop(context)
+              ? null
+              : (orderController.showBottomSheet &&
+                      orderController.runningOrderModel != null &&
+                      orderController.runningOrderModel.orders.isNotEmpty)
+                  ? SizedBox()
+                  : FloatingActionButton(
+                      elevation: 5,
+                      backgroundColor: _pageIndex == 2
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).cardColor,
+                      onPressed: () => _setPage(2),
+                      child: CartWidget(
+                          color: _pageIndex == 2
+                              ? Theme.of(context).cardColor
+                              : Theme.of(context).disabledColor,
+                          size: 30),
+                    ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: ResponsiveHelper.isDesktop(context)
+              ? SizedBox()
+              : (orderController.showBottomSheet &&
+                      orderController.runningOrderModel != null &&
+                      orderController.runningOrderModel.orders.isNotEmpty)
+                  ? SizedBox()
+                  : BottomAppBar(
+                      color: Color(0xff181862),
+                      elevation: 5,
+                      notchMargin: 5,
+                      clipBehavior: Clip.antiAlias,
+                      shape: CircularNotchedRectangle(),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        child: Row(children: [
+                          BottomNavItem(
+                              iconData: Icons.home,
+                              isSelected: _pageIndex == 0,
+                              onTap: () => _setPage(0)),
+                          BottomNavItem(
+                              iconData: Icons.favorite,
+                              isSelected: _pageIndex == 1,
+                              onTap: () => _setPage(1)),
+                          Expanded(child: SizedBox()),
+                          BottomNavItem(
+                              iconData: Icons.shopping_bag,
+                              isSelected: _pageIndex == 3,
+                              onTap: () => _setPage(3)),
+                          BottomNavItem(
+                              iconData: Icons.menu,
+                              isSelected: _pageIndex == 4,
+                              onTap: () {
+                                Get.bottomSheet(MenuScreen(),
+                                    backgroundColor: Colors.transparent,
+                                    isScrollControlled: true);
+                              }),
+                        ]),
+                      ),
+                    ),
+          body: ExpandableBottomSheet(
+            background: PageView.builder(
+              controller: _pageController,
+              itemCount: _screens.length,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return _screens[index];
               },
-              onIsExtendedCallback: () {
-                if(orderController.showOneOrder) {
-                  orderController.showOrders();
-                }
-              },
-
-              enableToggle: true,
-
-              expandableContent: (ResponsiveHelper.isDesktop(context) || !_isLogin || orderController.runningOrderModel == null
-                  || orderController.runningOrderModel.orders.isEmpty || !orderController.showBottomSheet) ? null
-                  : Dismissible(
-                      key: UniqueKey(),
-                      onDismissed: (direction) {
-                        if(orderController.showBottomSheet){
-                          orderController.showRunningOrders();
-                        }
-                      },
-                      child: RunningOrderViewWidget(reversOrder: _reversOrder),
-                  ),
-
             ),
-
-          );
-        }
-      ),
+            persistentContentHeight: 100,
+            onIsContractedCallback: () {
+              if (!orderController.showOneOrder) {
+                orderController.showOrders();
+              }
+            },
+            onIsExtendedCallback: () {
+              if (orderController.showOneOrder) {
+                orderController.showOrders();
+              }
+            },
+            enableToggle: true,
+            expandableContent: (ResponsiveHelper.isDesktop(context) ||
+                    !_isLogin ||
+                    orderController.runningOrderModel == null ||
+                    orderController.runningOrderModel.orders.isEmpty ||
+                    !orderController.showBottomSheet)
+                ? null
+                : Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      if (orderController.showBottomSheet) {
+                        orderController.showRunningOrders();
+                      }
+                    },
+                    child: RunningOrderViewWidget(reversOrder: _reversOrder),
+                  ),
+          ),
+        );
+      }),
     );
   }
 
@@ -191,8 +223,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget trackView(BuildContext context, {@required bool status}) {
-    return Container(height: 3, decoration: BoxDecoration(color: status ? Theme.of(context).primaryColor
-        : Theme.of(context).disabledColor.withOpacity(0.5), borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)));
+    return Container(
+        height: 3,
+        decoration: BoxDecoration(
+            color: status
+                ? Theme.of(context).primaryColor
+                : Theme.of(context).disabledColor.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)));
   }
 }
-
