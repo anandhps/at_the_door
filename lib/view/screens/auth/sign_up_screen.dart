@@ -37,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
   final FocusNode _referCodeFocus = FocusNode();
+  bool otpVerified = false;
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -98,8 +99,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                     // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-
-                    Text('sign_up'.tr.toUpperCase(),
+                    Text(
+                        otpVerified ? 'sign_up'.tr.toUpperCase() : "Verify Otp",
                         style: robotoBlack.copyWith(fontSize: 30)),
                     SizedBox(height: 50),
 
@@ -279,17 +280,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _register(AuthController authController, String countryCode) async {
-    String _firstName = _firstNameController.text.trim();
-    String _lastName = _lastNameController.text.trim();
-    String _email = _emailController.text.trim();
     String _number = _phoneController.text.trim();
-    String _password = _passwordController.text.trim();
-    String _confirmPassword = _confirmPasswordController.text.trim();
-    String _referCode = _referCodeController.text.trim();
-
     String _numberWithCountryCode = countryCode + _number;
     bool _isValid = GetPlatform.isWeb ? true : false;
-    if (!GetPlatform.isWeb) {
+    if (!GetPlatform.isWeb && otpVerified == false) {
       try {
         PhoneNumber phoneNumber =
             await PhoneNumberUtil().parse(_numberWithCountryCode);
@@ -297,10 +291,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
             '+' + phoneNumber.countryCode + phoneNumber.nationalNumber;
         _isValid = true;
         if (_isValid) {
-          // _displayTextInputDialog(context, _number);
-          verifyPhone("+91 7667673692");
+          String phNo = phoneNumber.e164.toString();
+          verifyPhone(phNo.toString());
+          return;
         }
       } catch (e) {}
+    }
+
+    String _firstName = _firstNameController.text.trim();
+    String _lastName = _lastNameController.text.trim();
+    String _email = _emailController.text.trim();
+
+    String _password = _passwordController.text.trim();
+    String _confirmPassword = _confirmPasswordController.text.trim();
+    String _referCode = _referCodeController.text.trim();
+    if (!_isValid) {
+      showCustomSnackBar('invalid_phone_number'.tr);
+      return;
     }
 
     if (_firstName.isEmpty) {
@@ -349,9 +356,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  _displayTextInputDialog(BuildContext context, number) {
-    var selectedDropDownValue = "Follow Up";
-
+  _displayTextInputDialog(BuildContext context, String verID, String number) {
     TextEditingController textController = TextEditingController();
     showDialog(
         context: context,
@@ -393,7 +398,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         Expanded(
                           child: OtpTextField(
-                            numberOfFields: 5,
+                            numberOfFields: 6,
                             borderColor: Color(0xFF512DA8),
                             //set to true to show as box or false to show as dash
                             showFieldAsBox: true,
@@ -402,8 +407,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               //handle validation or checks here
                             },
                             //runs when every textfield is filled
-                            onSubmit:
-                                (String verificationCode) {}, // end onSubmit
+                            onSubmit: (String verificationCode) {
+                              signInWithSmsCode(verificationCode, verID);
+                            }, // end onSubmit
                           ),
                         ),
                         Row(
@@ -444,10 +450,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> verifyPhone(phoneNo) async {
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
       this.verificationId = verId;
-      // smsOTPDialog(context).then((value) {
-      //   print('sign in');
-      // });
-      signInWithSmsCode("000001", verId);
+
+      _displayTextInputDialog(context, verId, phoneNo);
+
+      // signInWithSmsCode("000001", verId);
     };
     try {
       await _auth.verifyPhoneNumber(
@@ -479,12 +485,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     try {
       await _auth.signInWithCredential(authCredential);
-      print("33---------------------");
+      Get.back();
+      showCustomSnackBar('OTP Verified Successfully');
     } on PlatformException catch (e) {
-      print("22---------------------");
+      showCustomSnackBar('Something went wrong. Please try again later');
       throw Exception(e);
     } on FirebaseAuthException {
-      print("11---------------------");
+      showCustomSnackBar('Please Check the OTP');
     }
   }
 }
