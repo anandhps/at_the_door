@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "744290881254-l7h0n04pkgksik22vd8cebvpbqf079ha.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.lordandkingsagropvtltd.atyourdoor",
-            "certificate_hash": "7bc0e400cc708083d52e831e23cb4dfa053a2f16"
-          }
-        },
-        {
           "client_id": "744290881254-pts71cvk7jrvl953gq64gor5a05ft4gl.apps.googleusercontent.com",
           "client_type": 3
         }

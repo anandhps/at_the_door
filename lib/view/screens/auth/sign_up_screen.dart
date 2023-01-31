@@ -38,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _confirmPasswordFocus = FocusNode();
   final FocusNode _referCodeFocus = FocusNode();
   bool otpVerified = false;
+  bool _isValid = GetPlatform.isWeb ? true : false;
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -99,8 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                     // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-                    Text(
-                        otpVerified ? 'sign_up'.tr.toUpperCase() : "Verify Otp",
+                    Text('sign_up'.tr.toUpperCase(),
                         style: robotoBlack.copyWith(fontSize: 30)),
                     SizedBox(height: 50),
 
@@ -174,13 +174,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           Expanded(
-                              child: CustomTextField(
-                            hintText: 'phone'.tr,
-                            controller: _phoneController,
-                            focusNode: _phoneFocus,
-                            nextFocus: _passwordFocus,
-                            inputType: TextInputType.phone,
-                            divider: false,
+                              child: AbsorbPointer(
+                            absorbing: otpVerified,
+                            child: CustomTextField(
+                              hintText: 'phone'.tr,
+                              controller: _phoneController,
+                              focusNode: _phoneFocus,
+                              nextFocus: _passwordFocus,
+                              inputType: TextInputType.phone,
+                              divider: false,
+                            ),
                           )),
                         ]),
                         Padding(
@@ -256,7 +259,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             )),
                             Expanded(
                                 child: CustomButton(
-                              buttonText: 'sign_up'.tr,
+                              buttonText: otpVerified
+                                  ? 'sign_up'.tr.toUpperCase()
+                                  : "Verify Otp",
                               onPressed: authController.acceptTerms
                                   ? () => _register(
                                       authController, _countryDialCode)
@@ -279,12 +284,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  void onLoading(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+              child: CircularProgressIndicator(color: Color(0xff181862)));
+        });
+  }
+
   void _register(AuthController authController, String countryCode) async {
     String _number = _phoneController.text.trim();
     String _numberWithCountryCode = countryCode + _number;
-    bool _isValid = GetPlatform.isWeb ? true : false;
+
+    if (_phoneController.text.length < 10) {
+      showCustomSnackBar('invalid_phone_number'.tr);
+      return;
+    }
+
     if (!GetPlatform.isWeb && otpVerified == false) {
       try {
+        onLoading(context);
         PhoneNumber phoneNumber =
             await PhoneNumberUtil().parse(_numberWithCountryCode);
         _numberWithCountryCode =
@@ -450,7 +471,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> verifyPhone(phoneNo) async {
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
       this.verificationId = verId;
-
+      Get.back();
+      showCustomSnackBar('OTP Sent Successfully');
       _displayTextInputDialog(context, verId, phoneNo);
 
       // signInWithSmsCode("000001", verId);
@@ -485,7 +507,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     try {
       await _auth.signInWithCredential(authCredential);
+      FocusScope.of(context).nextFocus();
       Get.back();
+      setState(() {
+        otpVerified = true;
+      });
       showCustomSnackBar('OTP Verified Successfully');
     } on PlatformException catch (e) {
       showCustomSnackBar('Something went wrong. Please try again later');
