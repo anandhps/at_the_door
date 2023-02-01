@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -15,6 +16,8 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sixam_mart/view/base/footer_view.dart';
 import 'package:sixam_mart/view/base/menu_drawer.dart';
+
+import 'forget_pass_screen.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String number;
@@ -252,16 +255,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 }
                               });
                             } else {
-                              authController.verifyToken(_number).then((value) {
-                                if (value.isSuccess) {
-                                  Get.toNamed(RouteHelper.getResetPasswordRoute(
-                                      _number,
-                                      authController.verificationCode,
-                                      'reset-password'));
-                                } else {
-                                  showCustomSnackBar(value.message);
-                                }
-                              });
+                              signInWithSmsCode(authController.verificationCode,
+                                  widget.token, authController);
+                              // return;
+
                             }
                           },
                         )
@@ -272,5 +269,37 @@ class _VerificationScreenState extends State<VerificationScreen> {
         )),
       )))),
     );
+  }
+
+  void callNext(AuthController authController) {
+    authController.updateVerificationCode(otp);
+    authController.verifyToken(_number).then((value) {
+      if (value.isSuccess) {
+        Get.toNamed(RouteHelper.getResetPasswordRoute(
+            _number, authController.verificationCode, 'reset-password'));
+      } else {
+        showCustomSnackBar(value.message);
+      }
+    });
+  }
+
+  @override
+  Future<void> signInWithSmsCode(
+      String smsCode, String verCode, AuthController authController) async {
+    final AuthCredential authCredential = PhoneAuthProvider.credential(
+      smsCode: smsCode,
+      verificationId: verCode,
+    );
+    try {
+      FirebaseAuth _auth = FirebaseAuth.instance;
+      await _auth.signInWithCredential(authCredential);
+      showCustomSnackBar('OTP Verified Successfully');
+      callNext(authController);
+    } on PlatformException catch (e) {
+      showCustomSnackBar('Something went wrong. Please try again later');
+      throw Exception(e);
+    } on FirebaseAuthException {
+      showCustomSnackBar('Please Check the OTP');
+    }
   }
 }

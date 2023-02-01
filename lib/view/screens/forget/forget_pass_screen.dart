@@ -1,4 +1,5 @@
 import 'package:country_code_picker/country_code.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sixam_mart/controller/auth_controller.dart';
 import 'package:sixam_mart/controller/splash_controller.dart';
 import 'package:sixam_mart/data/model/body/social_log_in_body.dart';
@@ -146,8 +147,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
             .forgetPassword(_numberWithCountryCode)
             .then((status) async {
           if (status.isSuccess) {
-            Get.toNamed(RouteHelper.getVerificationRoute(
-                _numberWithCountryCode, '', RouteHelper.forgotPassword, ''));
+            verifyPhone(_numberWithCountryCode, status.token);
           } else {
             showCustomSnackBar(status.message);
           }
@@ -155,4 +155,52 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
       }
     }
   }
+
+  String smsOTP;
+  String verificationId;
+  String errorMessage = '';
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> verifyPhone(_numberWithCountryCode, token) async {
+    otp = token;
+    onLoading(context);
+    final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
+      this.verificationId = verId;
+      Get.back();
+      showCustomSnackBar('OTP Sent Successfully');
+      Get.toNamed(RouteHelper.getVerificationRoute(
+          _numberWithCountryCode, verId, RouteHelper.forgotPassword, ''));
+    };
+    try {
+      await _auth.verifyPhoneNumber(
+          phoneNumber: _numberWithCountryCode,
+          codeAutoRetrievalTimeout: (String verId) {
+            //Starts the phone number verification process for the given phone number.
+            //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
+            this.verificationId = verId;
+          },
+          codeSent:
+              smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
+          timeout: const Duration(seconds: 20),
+          verificationCompleted: (AuthCredential phoneAuthCredential) {
+            print(phoneAuthCredential);
+          },
+          verificationFailed: (exceptio) {
+            print('${exceptio.message}');
+          });
+    } catch (e) {
+      print(e);
+    }
+  }
 }
+
+void onLoading(BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(child: CircularProgressIndicator());
+      });
+}
+
+String otp = "";
