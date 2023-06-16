@@ -56,7 +56,7 @@ class CategoryPopUp extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        height: 50,
+                                        height: 45,
                                         width: 50,
                                         margin: EdgeInsets.only(
                                             bottom: Dimensions
@@ -86,7 +86,7 @@ class CategoryPopUp extends StatelessWidget {
                                             .categoryList[index].name,
                                         style: robotoMedium.copyWith(
                                             fontSize: Dimensions.fontSizeSmall),
-                                        maxLines: 1,
+                                        maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                       ),

@@ -317,7 +317,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _isValid = true;
         if (_isValid) {
           String phNo = phoneNumber.e164.toString();
-          verifyPhone(phNo.toString());
+          verifyPhone(phNo.toString(), authController);
           return;
         }
       } catch (e) {}
@@ -471,8 +471,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String verificationId;
   String errorMessage = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<void> verifyPhone(phoneNo) async {
+  AuthController _authController;
+  Future<void> verifyPhone(phoneNo, AuthController authController) async {
+    _authController = authController;
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
       this.verificationId = verId;
       Get.back();
@@ -483,21 +484,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     };
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: phoneNo, // PHONE NUMBER TO SEND OTP
-          codeAutoRetrievalTimeout: (String verId) {
-            //Starts the phone number verification process for the given phone number.
-            //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
-            this.verificationId = verId;
-          },
-          codeSent:
-              smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
-          timeout: const Duration(seconds: 20),
-          verificationCompleted: (AuthCredential phoneAuthCredential) {
-            print(phoneAuthCredential);
-          },
-          verificationFailed: (exceptio) {
-            print('${exceptio.message}');
-          });
+        phoneNumber: phoneNo, // PHONE NUMBER TO SEND OTP
+        codeAutoRetrievalTimeout: (String verId) {
+          //Starts the phone number verification process for the given phone number.
+          //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
+          this.verificationId = verId;
+        },
+        codeSent:
+            smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
+        timeout: const Duration(seconds: 20),
+        verificationCompleted: (AuthCredential phoneAuthCredential) {
+          print(phoneAuthCredential);
+        },
+        verificationFailed: (exceptio) {
+          print('${exceptio.message}');
+        },
+      );
     } catch (e) {
       print(e);
     }
@@ -517,6 +519,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         otpVerified = true;
       });
       showCustomSnackBar('OTP Verified Successfully');
+      _register(_authController, _countryDialCode);
+      // showCustomSnackBar(
+      //     'Please enter your Phone Number and Password to SIGN IN');
     } on PlatformException catch (e) {
       showCustomSnackBar('Something went wrong. Please try again later');
       throw Exception(e);
