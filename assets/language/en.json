@@ -313,7 +313,7 @@
   "update_now": "Update Now",
   "your_app_is_deprecated": "The app you using is deprecated. A newer version of this app is available. Please update your app.",
   "can_not_launch": "Can't launch",
-  "i_agree_with": "I agree with",
+  "i_agree_with": "I agree to the",
   "service_not_available_in_this_area": "Service not available in this area",
   "you_have_to_allow": "You have to allow location permission to use your location",
   "you_denied_location_permission": "You denied location permission forever. Please allow location permission from your app settings and receive more accurate delivery.",

@@ -181,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: AbsorbPointer(
                             absorbing: otpVerified,
                             child: CustomTextField(
-                              hintText: 'phone'.tr,
+                              hintText: 'Mobile Number',
                               controller: _phoneController,
                               focusNode: _phoneFocus,
                               nextFocus: _passwordFocus,
@@ -265,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: CustomButton(
                               buttonText: otpVerified
                                   ? 'sign_up'.tr.toUpperCase()
-                                  : "Verify Otp",
+                                  : "Verify OTP",
                               onPressed: authController.acceptTerms
                                   ? () => _register(
                                       authController, _countryDialCode)

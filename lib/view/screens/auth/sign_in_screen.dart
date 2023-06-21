@@ -191,7 +191,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             Expanded(
                                 flex: 1,
                                 child: CustomTextField(
-                                  hintText: 'phone'.tr,
+                                  hintText: 'Mobile Number',
                                   controller: _phoneController,
                                   focusNode: _phoneFocus,
                                   nextFocus: _passwordFocus,
