@@ -33,7 +33,7 @@ class _FavouriteScreenState extends State<FavouriteScreen>
       body: Get.find<AuthController>().isLoggedIn()
           ? SafeArea(
               child: Column(children: [
-              Container(
+              /* Container(
                 width: Dimensions.WEB_MAX_WIDTH,
                 color: Theme.of(context).cardColor,
                 child: TabBar(
@@ -54,7 +54,7 @@ class _FavouriteScreenState extends State<FavouriteScreen>
                     //     ? 'restaurants'.tr : 'stores'.tr),
                   ],
                 ),
-              ),
+              ),*/
               Expanded(
                   child: TabBarView(
                 controller: _tabController,
