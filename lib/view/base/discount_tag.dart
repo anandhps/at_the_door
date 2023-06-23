@@ -37,21 +37,38 @@ class DiscountTag extends StatelessWidget {
                   left: Radius.circular(inLeft ? 0 : Dimensions.RADIUS_SMALL),
                 ),
               ),
-              child: Text(
-                discount > 0
-                    ? Get.find<SplashController>().configModel.currencySymbol +
-                        ' $discount${discountType == 'percent' ? '%' : ''} ${'off'.tr}'
-                    : 'free_delivery'.tr,
-                style: robotoMedium.copyWith(
-                  color: Colors.white,
-                  fontSize: fontSize != null
-                      ? fontSize
-                      : ResponsiveHelper.isMobile(context)
-                          ? 8
-                          : 12,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              child: discountType == 'percent'
+                  ? Text(
+                      discount > 0
+                          ? ' $discount${discountType == 'percent' ? '%' : ''} ${'off'.tr}'
+                          : 'free_delivery'.tr,
+                      style: robotoMedium.copyWith(
+                        color: Colors.white,
+                        fontSize: fontSize != null
+                            ? fontSize
+                            : ResponsiveHelper.isMobile(context)
+                                ? 8
+                                : 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
+                  : Text(
+                      discount > 0
+                          ? Get.find<SplashController>()
+                                  .configModel
+                                  .currencySymbol +
+                              ' $discount ${'off'.tr}'
+                          : 'free_delivery'.tr,
+                      style: robotoMedium.copyWith(
+                        color: Colors.white,
+                        fontSize: fontSize != null
+                            ? fontSize
+                            : ResponsiveHelper.isMobile(context)
+                                ? 8
+                                : 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
             ),
           )
         : SizedBox();
