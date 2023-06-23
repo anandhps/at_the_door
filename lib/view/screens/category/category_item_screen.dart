@@ -263,7 +263,7 @@ class _CategoryItemScreenState extends State<CategoryItemScreen>
                                           fontSize: Dimensions.fontSizeSmall,
                                           color: Color(0xff00008B)),
                                 ),
-                                index == catController.subCategoryIndex
+                                /* index == catController.subCategoryIndex
                                     ? Container(
                                         height: 5,
                                         width: 5,
@@ -272,7 +272,7 @@ class _CategoryItemScreenState extends State<CategoryItemScreen>
                                                 Theme.of(context).primaryColor,
                                             shape: BoxShape.circle),
                                       )
-                                    : SizedBox(height: 5, width: 5),
+                                    : SizedBox(height: 5, width: 5),*/
                               ]),
                             ),
                           );
