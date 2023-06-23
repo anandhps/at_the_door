@@ -493,41 +493,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                     SizedBox(
                                                         height: Dimensions
                                                             .PADDING_SIZE_LARGE),
+
                                                     mandatoryText(
-                                                        'street_number'.tr,
-                                                        Dimensions
-                                                            .fontSizeSmall),
-                                                    // Text(
-                                                    //   'street_number'.tr,
-                                                    //   style: robotoRegular.copyWith(
-                                                    //       fontSize: Dimensions
-                                                    //           .fontSizeSmall,
-                                                    //       color: Theme.of(
-                                                    //               context)
-                                                    //           .disabledColor),
-                                                    // ),
-                                                    SizedBox(
-                                                        height: Dimensions
-                                                            .PADDING_SIZE_SMALL),
-                                                    MyTextField(
-                                                      hintText:
-                                                          'street_number'.tr,
-                                                      inputType: TextInputType
-                                                          .streetAddress,
-                                                      focusNode: _streetNode,
-                                                      nextFocus: _houseNode,
-                                                      controller:
-                                                          _streetNumberController,
-                                                    ),
-                                                    SizedBox(
-                                                        height: Dimensions
-                                                            .PADDING_SIZE_LARGE),
-                                                    mandatoryText(
-                                                      'house'.tr +
-                                                          ' / ' +
-                                                          'floor'.tr +
-                                                          ' ' +
-                                                          'number'.tr,
+                                                      'House Number & Floor Number',
                                                       Dimensions.fontSizeSmall,
                                                     ),
                                                     // Text(
@@ -583,6 +551,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           ),
                                                         ),
                                                       ],
+                                                    ),
+                                                    SizedBox(
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_LARGE),
+                                                    mandatoryText(
+                                                        'street_number'.tr,
+                                                        Dimensions
+                                                            .fontSizeSmall),
+                                                    // Text(
+                                                    //   'street_number'.tr,
+                                                    //   style: robotoRegular.copyWith(
+                                                    //       fontSize: Dimensions
+                                                    //           .fontSizeSmall,
+                                                    //       color: Theme.of(
+                                                    //               context)
+                                                    //           .disabledColor),
+                                                    // ),
+                                                    SizedBox(
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_SMALL),
+                                                    MyTextField(
+                                                      hintText:
+                                                          'street_number'.tr,
+                                                      inputType: TextInputType
+                                                          .streetAddress,
+                                                      focusNode: _streetNode,
+                                                      nextFocus: _houseNode,
+                                                      controller:
+                                                          _streetNumberController,
                                                     ),
                                                     SizedBox(
                                                         height: Dimensions
