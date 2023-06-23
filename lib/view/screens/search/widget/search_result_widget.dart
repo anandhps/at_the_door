@@ -90,7 +90,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget>
                       ]),
                     )));
       }),
-      Center(
+      /*   Center(
           child: Container(
         width: Dimensions.WEB_MAX_WIDTH,
         color: Theme.of(context).cardColor,
@@ -112,7 +112,7 @@ class _SearchResultWidgetState extends State<SearchResultWidget>
             //     ? 'restaurants'.tr : 'stores'.tr),
           ],
         ),
-      )),
+      )),*/
       Expanded(
           child: NotificationListener(
         onNotification: (scrollNotification) {
