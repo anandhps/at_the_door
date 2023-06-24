@@ -56,7 +56,7 @@ class CategoryPopUp extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        height: 45,
+                                        height: 38,
                                         width: 50,
                                         margin: EdgeInsets.only(
                                             bottom: Dimensions
