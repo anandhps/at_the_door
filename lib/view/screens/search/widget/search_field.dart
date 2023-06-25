@@ -1,6 +1,12 @@
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:sixam_mart/controller/location_controller.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../data/model/response/prediction_model.dart';
 
 class SearchField extends StatefulWidget {
   final TextEditingController controller;
@@ -10,7 +16,14 @@ class SearchField extends StatefulWidget {
   final Color filledColor;
   final Function onSubmit;
   final Function onChanged;
-  SearchField({@required this.controller, @required this.hint, @required this.suffixIcon, @required this.iconPressed, this.filledColor, this.onSubmit, this.onChanged});
+  SearchField(
+      {@required this.controller,
+      @required this.hint,
+      @required this.suffixIcon,
+      @required this.iconPressed,
+      this.filledColor,
+      this.onSubmit,
+      this.onChanged});
 
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -19,22 +32,54 @@ class SearchField extends StatefulWidget {
 class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: widget.controller,
-      textInputAction: TextInputAction.search,
-      decoration: InputDecoration(
-        hintText: widget.hint,
-        hintStyle: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), borderSide: BorderSide.none),
-        filled: true, fillColor: widget.filledColor ?? Theme.of(context).cardColor,
-        isDense: true,
-        suffixIcon: IconButton(
-          onPressed: widget.iconPressed,
-          icon: Icon(widget.suffixIcon, color: Theme.of(context).textTheme.bodyText1.color),
+    return TypeAheadField(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: widget.controller,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: widget.hint,
+          hintStyle: robotoRegular.copyWith(
+              fontSize: Dimensions.fontSizeSmall,
+              color: Theme.of(context).disabledColor),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+              borderSide: BorderSide.none),
+          filled: true,
+          fillColor: widget.filledColor ?? Theme.of(context).cardColor,
+          isDense: true,
+          suffixIcon: IconButton(
+            onPressed: widget.iconPressed,
+            icon: Icon(widget.suffixIcon,
+                color: Theme.of(context).textTheme.bodyText1.color),
+          ),
         ),
+        onSubmitted: widget.onSubmit,
       ),
-      onSubmitted: widget.onSubmit,
-      onChanged: widget.onChanged,
+      suggestionsCallback: (pattern) async {
+        return await Get.find<LocationController>()
+            .searchLocation(context, pattern);
+      },
+      itemBuilder: (context, PredictionModel suggestion) {
+        return Padding(
+          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+          child: Row(children: [
+            Icon(Icons.search_rounded),
+            Expanded(
+              child: Text(suggestion.description,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline2.copyWith(
+                        color: Theme.of(context).textTheme.bodyText1.color,
+                        fontSize: Dimensions.fontSizeLarge,
+                      )),
+            ),
+          ]),
+        );
+      },
+      onSuggestionSelected: (PredictionModel suggestion) {
+        widget.controller.text = suggestion.description;
+        widget.onSubmit(widget.controller.text);
+      },
     );
   }
 }
