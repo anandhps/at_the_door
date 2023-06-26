@@ -2,6 +2,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sixam_mart/controller/location_controller.dart';
+import 'package:sixam_mart/data/model/response/search_model.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:flutter/material.dart';
@@ -57,15 +58,15 @@ class _SearchFieldState extends State<SearchField> {
       ),
       suggestionsCallback: (pattern) async {
         return await Get.find<LocationController>()
-            .searchLocation(context, pattern);
+            .searchProducts(context, pattern);
       },
-      itemBuilder: (context, PredictionModel suggestion) {
+      itemBuilder: (context, SearchModel suggestion) {
         return Padding(
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
           child: Row(children: [
             Icon(Icons.search_rounded),
             Expanded(
-              child: Text(suggestion.description,
+              child: Text(suggestion.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.headline2.copyWith(
@@ -76,8 +77,8 @@ class _SearchFieldState extends State<SearchField> {
           ]),
         );
       },
-      onSuggestionSelected: (PredictionModel suggestion) {
-        widget.controller.text = suggestion.description;
+      onSuggestionSelected: (SearchModel suggestion) {
+        widget.controller.text = suggestion.name;
         widget.onSubmit(widget.controller.text);
       },
     );
