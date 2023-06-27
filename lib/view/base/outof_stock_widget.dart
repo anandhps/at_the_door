@@ -19,7 +19,7 @@ class OutOfStockeWidget extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-            color: Colors.black.withOpacity(0.6)),
+            color: Colors.black.withOpacity(0.2)),
         child: Text(
           "Out of stock",
           textAlign: TextAlign.center,

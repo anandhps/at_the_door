@@ -16,33 +16,47 @@ class PopularItemScreen extends StatefulWidget {
 }
 
 class _PopularItemScreenState extends State<PopularItemScreen> {
-
   @override
   void initState() {
     super.initState();
 
-    if(widget.isPopular) {
-      Get.find<ItemController>().getPopularItemList(true, Get.find<ItemController>().popularType, false);
-    }else {
-      Get.find<ItemController>().getReviewedItemList(true, Get.find<ItemController>().reviewType, false);
+    if (widget.isPopular) {
+      Get.find<ItemController>().getPopularItemList(
+          true, Get.find<ItemController>().popularType, false);
+    } else {
+      Get.find<ItemController>().getReviewedItemList(
+          true, Get.find<ItemController>().reviewType, false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.isPopular ? 'popular_items_nearby'.tr : 'best_reviewed_item'.tr, showCart: true),
+      appBar: CustomAppBar(
+          title: widget.isPopular
+              ? 'popular_items_nearby'.tr
+              : 'best_reviewed_item'.tr,
+          showCart: true),
       endDrawer: MenuDrawer(),
-      body: Scrollbar(child: SingleChildScrollView(child: FooterView(child: SizedBox(
+      body: Scrollbar(
+          child: SingleChildScrollView(
+              child: FooterView(
+                  child: SizedBox(
         width: Dimensions.WEB_MAX_WIDTH,
         child: GetBuilder<ItemController>(builder: (itemController) {
           return ItemsView(
-            isStore: false, stores: null, type: widget.isPopular ? itemController.popularType : itemController.reviewType,
-            items: widget.isPopular ? itemController.popularItemList : itemController.reviewedItemList,
+            isStore: false,
+            stores: null,
+            type: widget.isPopular
+                ? itemController.popularType
+                : itemController.reviewType,
+            items: widget.isPopular
+                ? itemController.popularItemList
+                : itemController.reviewedItemList,
             onVegFilterTap: (String type) {
-              if(widget.isPopular) {
+              if (widget.isPopular) {
                 itemController.getPopularItemList(true, type, true);
-              }else {
+              } else {
                 itemController.getReviewedItemList(true, type, true);
               }
             },

@@ -120,7 +120,7 @@ class PopularItemView extends StatelessWidget {
                                               ? _itemList[index].stock > 0
                                                   ? SizedBox()
                                                   : OutOfStockeWidget()
-                                              : NotAvailableWidget(),
+                                              : OutOfStockeWidget(), //todo anand
                                         ]),
                                         Expanded(
                                           child: Padding(
