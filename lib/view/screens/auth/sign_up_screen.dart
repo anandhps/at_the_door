@@ -97,14 +97,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     : null,
                 child: GetBuilder<AuthController>(builder: (authController) {
                   return Column(children: [
-                    // SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                    SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-
                     Image.asset(Images.logo, width: 200),
-                    SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                    SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+
                     Text('sign_up'.tr.toUpperCase(),
                         style: robotoBlack.copyWith(fontSize: 30)),
                     SizedBox(height: 50),

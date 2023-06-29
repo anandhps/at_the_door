@@ -104,178 +104,167 @@ class _SignInScreenState extends State<SignInScreen> {
                 : null,
         endDrawer: MenuDrawer(),
         body: SafeArea(
-            child: Center(
-          child: Scrollbar(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: FooterView(
-                  child: Center(
+            child: Scrollbar(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: FooterView(
                 child: Container(
-                  width: context.width > 700 ? 700 : context.width,
-                  padding: context.width > 700
-                      ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT)
-                      : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                  margin: context.width > 700
-                      ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT)
-                      : EdgeInsets.zero,
-                  decoration: context.width > 700
-                      ? BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[Get.isDarkMode ? 700 : 300],
-                                blurRadius: 5,
-                                spreadRadius: 1)
-                          ],
-                        )
-                      : null,
-                  child: GetBuilder<AuthController>(builder: (authController) {
-                    return Column(children: [
-                      Image.asset(Images.logo, width: 200),
-                      // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                      // Center(child: Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge))),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+              width: context.width > 700 ? 700 : context.width,
+              padding: context.width > 700
+                  ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT)
+                  : EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+              margin: context.width > 700
+                  ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT)
+                  : EdgeInsets.zero,
+              decoration: context.width > 700
+                  ? BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey[Get.isDarkMode ? 700 : 300],
+                            blurRadius: 5,
+                            spreadRadius: 1)
+                      ],
+                    )
+                  : null,
+              child: GetBuilder<AuthController>(builder: (authController) {
+                return Column(children: [
+                  Image.asset(Images.logo, width: 200),
+                  Text('sign_in'.tr.toUpperCase(),
+                      style: robotoBlack.copyWith(fontSize: 30)),
+                  SizedBox(height: 50),
 
-                      Text('sign_in'.tr.toUpperCase(),
-                          style: robotoBlack.copyWith(fontSize: 30)),
-                      SizedBox(height: 50),
-
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                          color: Theme.of(context).cardColor,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[Get.isDarkMode ? 800 : 200],
-                                spreadRadius: 1,
-                                blurRadius: 5)
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      color: Theme.of(context).cardColor,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey[Get.isDarkMode ? 800 : 200],
+                            spreadRadius: 1,
+                            blurRadius: 5)
+                      ],
+                    ),
+                    child: Column(children: [
+                      Row(children: [
+                        CodePickerWidget(
+                          onChanged: (CountryCode countryCode) {
+                            _countryDialCode = countryCode.dialCode;
+                          },
+                          initialSelection: _countryDialCode != null
+                              ? CountryCode.fromCountryCode(
+                                      Get.find<SplashController>()
+                                          .configModel
+                                          .country)
+                                  .code
+                              : Get.find<LocalizationController>()
+                                  .locale
+                                  .countryCode,
+                          favorite: [
+                            CountryCode.fromCountryCode(
+                                    Get.find<SplashController>()
+                                        .configModel
+                                        .country)
+                                .code
                           ],
+                          showDropDownButton: true,
+                          padding: EdgeInsets.zero,
+                          showFlagMain: true,
+                          flagWidth: 30,
+                          dialogBackgroundColor: Theme.of(context).cardColor,
+                          textStyle: robotoRegular.copyWith(
+                            fontSize: Dimensions.fontSizeLarge,
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          ),
                         ),
-                        child: Column(children: [
-                          Row(children: [
-                            CodePickerWidget(
-                              onChanged: (CountryCode countryCode) {
-                                _countryDialCode = countryCode.dialCode;
-                              },
-                              initialSelection: _countryDialCode != null
-                                  ? CountryCode.fromCountryCode(
-                                          Get.find<SplashController>()
-                                              .configModel
-                                              .country)
-                                      .code
-                                  : Get.find<LocalizationController>()
-                                      .locale
-                                      .countryCode,
-                              favorite: [
-                                CountryCode.fromCountryCode(
-                                        Get.find<SplashController>()
-                                            .configModel
-                                            .country)
-                                    .code
-                              ],
-                              showDropDownButton: true,
-                              padding: EdgeInsets.zero,
-                              showFlagMain: true,
-                              flagWidth: 30,
-                              dialogBackgroundColor:
-                                  Theme.of(context).cardColor,
-                              textStyle: robotoRegular.copyWith(
-                                fontSize: Dimensions.fontSizeLarge,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
-                              ),
-                            ),
-                            Expanded(
-                                flex: 1,
-                                child: CustomTextField(
-                                  hintText: 'Mobile Number',
-                                  controller: _phoneController,
-                                  focusNode: _phoneFocus,
-                                  nextFocus: _passwordFocus,
-                                  inputType: TextInputType.phone,
-                                  divider: false,
-                                )),
-                          ]),
-                          Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Dimensions.PADDING_SIZE_LARGE),
-                              child: Divider(height: 1)),
-                          CustomTextField(
-                            hintText: 'password'.tr,
-                            controller: _passwordController,
-                            focusNode: _passwordFocus,
-                            inputAction: TextInputAction.done,
-                            inputType: TextInputType.visiblePassword,
-                            prefixIcon: Images.lock,
-                            isPassword: true,
-                            onSubmit: (text) => (GetPlatform.isWeb &&
-                                    authController.acceptTerms)
+                        Expanded(
+                            flex: 1,
+                            child: CustomTextField(
+                              hintText: 'Mobile Number',
+                              controller: _phoneController,
+                              focusNode: _phoneFocus,
+                              nextFocus: _passwordFocus,
+                              inputType: TextInputType.phone,
+                              divider: false,
+                            )),
+                      ]),
+                      Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Dimensions.PADDING_SIZE_LARGE),
+                          child: Divider(height: 1)),
+                      CustomTextField(
+                        hintText: 'password'.tr,
+                        controller: _passwordController,
+                        focusNode: _passwordFocus,
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.visiblePassword,
+                        prefixIcon: Images.lock,
+                        isPassword: true,
+                        onSubmit: (text) =>
+                            (GetPlatform.isWeb && authController.acceptTerms)
                                 ? _login(authController, _countryDialCode)
                                 : null,
-                          ),
-                        ]),
                       ),
-                      SizedBox(height: 10),
+                    ]),
+                  ),
+                  SizedBox(height: 10),
 
-                      Row(children: [
-                        Expanded(
-                          child: ListTile(
-                            onTap: () => authController.toggleRememberMe(),
-                            leading: Checkbox(
-                              activeColor: Theme.of(context).primaryColor,
-                              value: authController.isActiveRememberMe,
-                              onChanged: (bool isChecked) =>
-                                  authController.toggleRememberMe(),
-                            ),
-                            title: Text('remember_me'.tr),
-                            contentPadding: EdgeInsets.zero,
-                            dense: true,
-                            horizontalTitleGap: 0,
-                          ),
+                  Row(children: [
+                    Expanded(
+                      child: ListTile(
+                        onTap: () => authController.toggleRememberMe(),
+                        leading: Checkbox(
+                          activeColor: Theme.of(context).primaryColor,
+                          value: authController.isActiveRememberMe,
+                          onChanged: (bool isChecked) =>
+                              authController.toggleRememberMe(),
                         ),
-                        TextButton(
-                          onPressed: () => Get.toNamed(
-                              RouteHelper.getForgotPassRoute(false, null)),
-                          child: Text('${'forgot_password'.tr}?'),
-                        ),
-                      ]),
-                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                        title: Text('remember_me'.tr),
+                        contentPadding: EdgeInsets.zero,
+                        dense: true,
+                        horizontalTitleGap: 0,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Get.toNamed(
+                          RouteHelper.getForgotPassRoute(false, null)),
+                      child: Text('${'forgot_password'.tr}?'),
+                    ),
+                  ]),
+                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                      ConditionCheckBox(authController: authController),
-                      SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                  ConditionCheckBox(authController: authController),
+                  SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
 
-                      !authController.isLoading
-                          ? Row(children: [
-                              Expanded(
-                                  child: CustomButton(
-                                buttonText: 'sign_up'.tr,
-                                transparent: true,
-                                onPressed: () =>
-                                    Get.toNamed(RouteHelper.getSignUpRoute()),
-                              )),
-                              Expanded(
-                                  child: CustomButton(
-                                buttonText: 'sign_in'.tr,
-                                onPressed: authController.acceptTerms
-                                    ? () =>
-                                        _login(authController, _countryDialCode)
-                                    : null,
-                              )),
-                            ])
-                          : Center(child: CircularProgressIndicator()),
-                      SizedBox(height: 30),
+                  !authController.isLoading
+                      ? Row(children: [
+                          Expanded(
+                              child: CustomButton(
+                            buttonText: 'sign_up'.tr,
+                            transparent: true,
+                            onPressed: () =>
+                                Get.toNamed(RouteHelper.getSignUpRoute()),
+                          )),
+                          Expanded(
+                              child: CustomButton(
+                            buttonText: 'sign_in'.tr,
+                            onPressed: authController.acceptTerms
+                                ? () => _login(authController, _countryDialCode)
+                                : null,
+                          )),
+                        ])
+                      : Center(child: CircularProgressIndicator()),
+                  SizedBox(height: 30),
 
-                      // SocialLoginWidget(),
+                  // SocialLoginWidget(),
 
-                      GuestButton(),
-                    ]);
-                  }),
-                ),
-              )),
-            ),
+                  GuestButton(),
+                ]);
+              }),
+            )),
           ),
         )),
       ),
