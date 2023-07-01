@@ -51,7 +51,7 @@ class CategoryPopUp extends StatelessWidget {
                               child: SizedBox(
                                 width: 50,
                                 child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
