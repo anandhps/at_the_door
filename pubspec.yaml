@@ -32,7 +32,6 @@ dependencies:
   universal_html: ^2.0.8
   universal_ui: ^0.0.8
   flutter_inappwebview: ^5.7.2+3
-  flutter_widget_from_html: ^0.8.5
   fwfh_selectable_text: ^0.8.3+1
   flutter_html: ^3.0.0-alpha.5
   url_launcher: ^6.1.2
@@ -51,6 +50,7 @@ dependencies:
   expandable_bottom_sheet: ^1.1.1+1
   flutter_otp_text_field: ^1.1.1
   firebase_auth: ^4.2.5
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:

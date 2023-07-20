@@ -67,6 +67,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/view/screens/wallet/wallet_screen.dart';
 
+import '../view/screens/checkout/payment_screen1.dart';
+
 class RouteHelper {
   static const String initial = '/';
   static const String splash = '/splash';
