@@ -148,6 +148,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           )));
                     }
                   }
+
+                  try {
+                    _streetNumberController.text = locationController.addressList[0].streetNumber;
+                    _houseController.text = locationController.addressList[0].house;
+                    _floorController.text = locationController.addressList[0].floor;
+                  } catch (e) {
+                    print(e);
+                  }
                 }
 
                 bool _todayClosed = false;
